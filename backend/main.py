@@ -1,5 +1,5 @@
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from contextlib import asynccontextmanager
 import sqlite3
 
@@ -26,4 +26,21 @@ async def lifespan(app: FastAPI):
         conn.commit()
         conn.close()
 
-    yield
+    yield # everything before yield runs at startup. Everything after runs at shutdown
+
+app = FastAPI(
+    title="Student API",
+    description="API for Student CRUD operations",
+    version="1.0.0",
+    docs_url="/docs",
+    lifespan=lifespan)
+
+# routes
+
+@app.get('/')
+async def get_all_students(request: Request):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    query = 'SELECT id, first_name, last_name FROM students'
+    cur.execute(query)
+    students = [{}]
