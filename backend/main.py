@@ -38,9 +38,12 @@ app = FastAPI(
 # routes
 
 @app.get('/')
-async def get_all_students(request: Request):
+async def get_all_students():
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
     query = 'SELECT id, first_name, last_name FROM students'
     cur.execute(query)
-    students = [{}]
+    rows = cur.fetchall()
+    conn.close()
+    students = [{"id": row[0], "first_name": row[1], "last_name": row[2]} for row in rows]
+    return students
