@@ -9,9 +9,15 @@
     })
 </script>
 
-<h2>Students</h2>
-<ul>
-    {#each students as student }
-        <li>{student.first_name} {student.last_name}</li>
-    {/each}
-</ul>
+    <div class="bg-white flex flex-col items-center">
+        <h2 class="text-3xl font-bold mb-6 text-gray-800">Students</h2>
+        <ul class="list-none">
+            {#each students as student }
+                <li class="bg-orange-500 text-white px-2.5 py-2 mb-2 rounded-lg">
+                    <span class="font-semibold">{student.first_name} {student.last_name}</span>
+                </li>
+            {/each}
+        </ul>
+    </div>
+
+    
